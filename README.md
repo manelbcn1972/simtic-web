@@ -1,2 +1,0 @@
-# simtic-web
-Simticweb
