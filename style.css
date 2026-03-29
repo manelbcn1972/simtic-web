@@ -55,7 +55,7 @@ nav {
      gap: 0.6rem;
 }
 
-.nav-logo img { height: 42px; display: block; }
+.nav-logo img { height: 60px; display: block; }
 
 .nav-links {
      display: flex;
@@ -340,7 +340,7 @@ nav {
      border: 1px solid rgba(255,255,255,0.1);
      border-radius: 16px;
      min-width: 220px;
-     height: 110px;
+     height: 140px;
      transition: border-color 0.3s, background 0.3s, transform 0.3s;
 }
 
@@ -348,6 +348,13 @@ nav {
      border-color: rgba(0,87,255,0.5);
      background: rgba(0,87,255,0.08);
      transform: translateY(-3px);
+}
+
+.brand-item svg,
+.brand-item img {
+  height: 72px !important;
+  width: auto !important;
+  max-width: 100%;
 }
 
 /* ============================================
@@ -575,7 +582,7 @@ footer {
      }
      .nav-links.open { display: flex; }
      .nav-links a { font-size: 1.2rem; color: #3a4a5c; }
-     .nav-logo img { height: 38px; }
+     .nav-logo img { height: 52px; }
 
   /* HERO */
   .hero { padding: 7rem 5% 4rem; text-align: center; min-height: auto; }
