@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Contecnow Executor QA</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#f4f6f8;color:#17202a}.app{max-width:900px;margin:0 auto;min-height:100dvh;background:#fff;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #e5e7eb;padding-bottom:12px}.status{font-size:12px;color:#9a6700}.status.ok{color:#137a4f}.card{border:1px solid #e1e6eb;border-radius:12px;padding:14px;margin-top:12px;background:#fff}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.muted{color:#697386;font-size:12px}.pill{padding:4px 7px;border-radius:999px;background:#fff0c8;color:#714900;font-size:11px;font-weight:700}button{border:0;background:#0f5f9a;color:#fff;border-radius:9px;padding:9px 12px;font-weight:700}button.alt{background:#fff;color:#344054;border:1px solid #d0d5dd}button.danger{background:#a33}input{padding:10px;border:1px solid #d0d5dd;border-radius:8px;flex:1}.hidden{display:none!important}pre{white-space:pre-wrap;background:#f6f7f9;padding:10px;border-radius:8px;font-size:12px;overflow:auto}.error{background:#fde8e8;color:#9b2c2c;border:1px solid #f2bcbc;padding:10px;border-radius:10px;margin-top:10px;font-size:12px}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div><strong>Contecnow Assistant · Chrome/Work</strong><div class="muted">Mantén esta pestaña abierta junto a Odoo</div></div>
+    <div id="status" class="status">Conectando…</div>
+  </header>
+  <div id="error" class="error hidden"></div>
+  <section class="card">
+    <div class="row"><button id="heartbeat">Iniciar/refrescar sesión</button><button class="alt" id="claim">Reclamar siguiente</button><button class="alt" id="release">Liberar caducados</button></div>
+    <p class="muted" id="session">Sin sesión ejecutora.</p>
+  </section>
+  <section class="card">
+    <div class="row"><strong>Acción reclamada</strong><span class="pill" id="actionStatus">NINGUNA</span></div>
+    <p id="actionTitle" class="muted">No hay ninguna acción reclamada.</p>
+    <div id="controls" class="hidden">
+      <pre id="payload"></pre>
+      <div class="row"><button id="start">Marcar iniciada</button></div>
+      <div class="row" style="margin-top:10px"><input id="odooId" placeholder="ID real de Odoo"><button id="done">Confirmar HECHO</button></div>
+      <div class="row" style="margin-top:10px"><input id="why" placeholder="Motivo del error"><button class="danger" id="fail">Error → cola</button></div>
+    </div>
+  </section>
+</div>
+<script>
+const API='https://gzrcorvigobwbhjjrhku.supabase.co/functions/v1/contecnow-browser-api';
+const KEY='contecnow.qa.executor.token.v1';
+const SKEY='contecnow.qa.executor.session.v1';
+let token=localStorage.getItem(KEY)||'';
+let sid=localStorage.getItem(SKEY)||'';
+let current=null;
+const $=id=>document.getElementById(id);
+function setStatus(t,ok=false){$('status').textContent=t;$('status').className='status'+(ok?' ok':'')}
+function showError(t){$('error').textContent=t;$('error').classList.remove('hidden');setStatus('Error')}
+function clearError(){$('error').classList.add('hidden')}
+async function api(action,data={}){const headers={'content-type':'application/json'};if(token)headers.authorization='Bearer '+token;const r=await fetch(API,{method:'POST',headers,body:JSON.stringify({action,data})});const b=await r.json().catch(()=>({}));if(!r.ok||b.ok===false)throw new Error(b.error||('HTTP '+r.status));return b}
+async function bootstrap(){const p=new URLSearchParams(location.hash.slice(1));const code=p.get('bootstrap');if(code){const r=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'bootstrap.exchange',data:{code,role:'executor'}})});const b=await r.json().catch(()=>({}));if(!r.ok||!b.ok)throw new Error(b.error||'No pude activar el ejecutor');token=b.token;localStorage.setItem(KEY,token);history.replaceState(null,'',location.pathname)}if(!token)throw new Error('Falta enlace de acceso del ejecutor')}
+async function beat(){clearError();const b=await api('executor.heartbeat',{sessionId:sid,metadata:{userAgent:navigator.userAgent,source:'contecnow-qa-executor'}});sid=b.session.id;localStorage.setItem(SKEY,sid);$('session').textContent='Sesión ejecutora: '+sid;setStatus('Ejecutor ONLINE',true);return b}
+async function take(){await beat();current=await api('executor.claim',{sessionId:sid});const a=current.action;$('controls').classList.toggle('hidden',!a);$('actionStatus').textContent=a?'RECLAMADA':'NINGUNA';$('actionTitle').textContent=a?(a.title+' · '+a.action_type):'No hay acciones reclamables.';if(a)$('payload').textContent=JSON.stringify(a.payload_json,null,2)}
+$('heartbeat').onclick=()=>beat().catch(e=>showError(e.message));
+$('claim').onclick=()=>take().catch(e=>showError(e.message));
+$('release').onclick=()=>api('executor.release').then(b=>setStatus('Liberados: '+b.released,true)).catch(e=>showError(e.message));
+$('start').onclick=()=>current?.attempt?.id&&api('executor.start',{attemptId:current.attempt.id}).then(()=>setStatus('Acción iniciada',true)).catch(e=>showError(e.message));
+$('done').onclick=()=>{const id=$('odooId').value.trim();if(!id)return showError('Introduce el ID real de Odoo');api('executor.complete',{attemptId:current.attempt.id,odooRecordId:id,resultJson:{confirmedBy:'chrome_work'}}).then(()=>{setStatus('HECHO',true);current=null;$('controls').classList.add('hidden');$('actionStatus').textContent='NINGUNA';$('actionTitle').textContent='No hay ninguna acción reclamada.';$('odooId').value=''}).catch(e=>showError(e.message))};
+$('fail').onclick=()=>api('executor.fail',{attemptId:current.attempt.id,error:$('why').value.trim()||'Error de ejecución'}).then(()=>{setStatus('Devuelta a cola',true);current=null;$('controls').classList.add('hidden');$('actionStatus').textContent='NINGUNA';$('actionTitle').textContent='No hay ninguna acción reclamada.';$('why').value=''}).catch(e=>showError(e.message));
+(async()=>{try{await bootstrap();await beat();setInterval(()=>beat().catch(()=>{}),30000)}catch(e){showError(e.message)}})();
+</script>
+</body>
+</html>
