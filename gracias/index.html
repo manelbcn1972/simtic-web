@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="robots" content="noindex" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gracias – SIMTIC Consulting</title>
+  <meta name="description" content="Estrategias de marketing digital B2B para empresas tecnológicas. Generación de leads, posicionamiento y crecimiento digital." />
+  <link rel="icon" href="/images/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png" alt="SIMTIC Consulting" />
+  </a>
+  <button class="nav-toggle" aria-label="Abrir menú" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="/" onclick="closeMenu()">Inicio</a></li>
+    <li><a href="/servicios" onclick="closeMenu()">Servicios y Consultoría IT</a></li>
+    <li><a href="/marketing-digital" onclick="closeMenu()">Marketing Digital B2B</a></li>
+    <li><a href="/garantia-seguros" onclick="closeMenu()">Garantía y Seguros</a></li>
+    <li><a href="/ecogreen" onclick="closeMenu()">EcoGreen</a></li>
+    <li><a href="/contacto" class="nav-cta" onclick="closeMenu()">Contactar</a></li>
+  </ul>
+</nav>
+
+<!-- GRACIAS -->
+<div class="page-hero">
+  <p class="section-label">Mensaje enviado</p>
+  <h1>¡Gracias!</h1>
+  <p>Hemos recibido tu solicitud y nos pondremos en contacto contigo lo antes posible.</p>
+</div>
+
+<div class="cta-section">
+  <h2>Mientras tanto</h2>
+  <p>Puedes seguir explorando nuestros servicios para distribuidores.</p>
+  <a href="https://simtic.es/" class="btn-white">Volver al inicio</a>
+</div>
+
+<!-- Formularios de detección para Netlify Forms (los formularios reales envían aquí desde simtic.es) -->
+<form name="contacto-simtic" method="POST" action="/gracias/" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="contacto-simtic" />
+  <input name="bot-field" /><input name="nombre" /><input name="empresa" /><input name="email" /><input name="telefono" /><input name="servicio" /><textarea name="mensaje"></textarea>
+</form>
+<form name="auditoria-ecoupgrade-simtic" method="POST" action="/gracias/" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="auditoria-ecoupgrade-simtic" />
+  <input name="bot-field" /><input name="name" /><input name="email" /><input type="file" name="attachment" /><textarea name="message"></textarea>
+</form>
+
+<script>
+  if (location.hostname !== 'simtic.es' && location.hostname !== 'localhost') { location.replace('https://simtic.es/gracias/'); }
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <img src="/images/logo.png" alt="SIMTIC" style="height:50px;margin-bottom:1rem;display:block;filter:brightness(0) invert(1);"/>
+    <p>Servicios tecnológicos para distribuidores IT y sus clientes desde 2017.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Páginas</h4>
+    <ul>
+      <li><a href="/servicios">Servicios y Consultoría IT</a></li>
+      <li><a href="/marketing-digital">Marketing Digital B2B</a></li>
+      <li><a href="/garantia-seguros">Garantía y Seguros</a></li>
+      <li><a href="/ecogreen">EcoGreen</a></li>
+      <li><a href="/contacto">Contacto</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Contacto</h4>
+    <ul>
+      <li><a href="mailto:ventas@simtic.es">ventas@simtic.es</a></li>
+      <li><a href="tel:+34931780237">+34 931 780 237</a></li>
+      <li><a href="#">Passeig de Gràcia 95, 5º, 1ª<br/>08008 Barcelona</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 SIMTIC Consulting. Todos los derechos reservados.</span>
+  <span>ventas@simtic.es</span>
+</div>
+
+<script>
+  function closeMenu() {
+    document.querySelector('.nav-links').classList.remove('open');
+    document.querySelector('.nav-toggle').classList.remove('active');
+  }
+</script>
+</body>
+</html>
