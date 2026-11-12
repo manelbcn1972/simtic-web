@@ -181,6 +181,7 @@
           <option value="hardware">Hardware y Software</option>
           <option value="marketing">Marketing Digital B2B</option>
           <option value="ecogreen">EcoGreen</option>
+          <option value="ecoupgrade">EcoUpgrade (recompra de dispositivos)</option>
           <option value="otro">Otro</option>
         </select>
       </div>
@@ -224,6 +225,7 @@
 </div>
 
 <script>
+  (function(){var s=new URLSearchParams(location.search).get('servicio');var e=document.getElementById('servicio');if(s&&e){e.value=s;}})();
   function closeMenu() {
     document.querySelector('.nav-links').classList.remove('open');
     document.querySelector('.nav-toggle').classList.remove('active');
