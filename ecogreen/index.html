@@ -1,218 +1,576 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoGreen EcoUpgrade – Recompra corporativa de dispositivos | SIMTIC Consulting</title>
-  <meta name="description" content="Programa corporativo de recompra de dispositivos: recuperación de valor, borrado certificado NIST 800-88, reacondicionamiento y datos de CO₂ evitado para tu informe de sostenibilidad." />
-  <link rel="icon" href="/images/logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css" />
-  <style>
-    .hero-badge { background: rgba(0,180,80,0.15); border-color: rgba(0,180,80,0.4); color: #00e676; }
-    .eco-highlight { color: #00e676; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOUPGRADE - Recompra Corporativa de Dispositivos</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración para usar la fuente Inter y colores corporativos -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#10B981', // Emerald Green (Brillante)
+                        'dark-green': '#064E3B',    // Un verde muy oscuro para el contraste
+                        'secondary-gray': '#F9FAFB',
+                        'dark-text': '#1F2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para la sombra de texto y el box shadow */
+        .text-shadow-lg {
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7); 
+        }
+
+        .shadow-green {
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.5), 0 4px 6px -2px rgba(16, 185, 129, 0.25);
+        }
+
+        /* Estilo para el punto central del timeline en escritorio */
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 1rem;
+            height: 1rem;
+            background-color: #10B981;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        
+        /* Iconos SVG inline */
+        .icon-check {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2;
+        }
+
+        .icon-lg {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        
+        /* Estilo para el input de archivo */
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px dashed #9CA3AF; /* Gray-400 */
+            color: #6B7280; /* Gray-500 */
+            transition: all 0.2s;
+        }
+        .file-input-label:hover {
+            border-color: #10B981; /* Primary Green */
+            color: #10B981;
+            background-color: #E6FFFA; /* Light Green */
+        }
+        .file-input-label input[type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
 </head>
-<body>
+<body class="font-sans text-dark-text bg-white">
+<div style="background:#064E3B;padding:6px 16px;font:600 13px Inter,sans-serif;"><a href="/" style="color:#fff;text-decoration:none;">&larr; SIMTIC Consulting</a></div>
 
-<!-- NAV -->
-<nav>
-  <a href="/" class="nav-logo">
-    <img src="/images/logo.png" alt="SIMTIC Consulting" />
-  </a>
-  <button class="nav-toggle" aria-label="Abrir menú" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links">
-    <li><a href="/" onclick="closeMenu()">Inicio</a></li>
-    <li><a href="/servicios" onclick="closeMenu()">Servicios y Consultoría IT</a></li>
-    <li><a href="/marketing-digital" onclick="closeMenu()">Marketing Digital B2B</a></li>
-    <li><a href="/ecogreen" onclick="closeMenu()">EcoGreen</a></li>
-    <li><a href="/contacto" class="nav-cta" onclick="closeMenu()">Contactar</a></li>
-  </ul>
-</nav>
+    <!-- Header / Navbar -->
+    <header class="bg-white sticky top-0 z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-primary-green">
+                ECOUPGRADE
+            </h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-gray-600 hover:text-primary-green font-medium transition duration-150">Inicio</a>
+                <a href="#sostenibilidad" class="text-gray-600 hover:text-primary-green font-medium transition duration-150">Sostenibilidad</a>
+                <a href="#ventajas" class="text-gray-600 hover:text-primary-green font-medium transition duration-150">Ventajas por Departamento</a>
+                <a href="#proceso" class="text-gray-600 hover:text-primary-green font-medium transition duration-150">Proceso</a>
+            </nav>
+            <a href="#contacto" class="hidden md:inline-flex px-4 py-2 border border-primary-green text-primary-green text-sm font-semibold rounded-lg hover:bg-primary-green hover:text-white transition duration-300 shadow-sm">
+                Contacto
+            </a>
+        </div>
+    </header>
 
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <p class="section-label">Programa corporativo de recompra de dispositivos</p>
-  <h1>EcoGreen <span class="eco-highlight">EcoUpgrade</span></h1>
-  <p>Transforma los dispositivos en desuso en valor sostenible: recompra, borrado certificado, reacondicionamiento o reciclaje responsable, con la trazabilidad que exige tu informe de sostenibilidad.</p>
-</div>
+    <!-- Sección 1: Hero / Inicio -->
+    <section id="inicio" class="bg-gradient-to-br from-dark-green to-primary-green py-20 sm:py-32 relative overflow-hidden">
+        <!-- Overlay de Patrón (Textura de fondo) -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.1)_1px,_transparent_1px)] bg-[length:20px_20px] opacity-80 z-0"></div>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><h3>230 kg</h3><p>CO₂e evitados por dispositivo reacondicionado frente a fabricar uno nuevo (Fraunhofer IZM, 2022)</p></div>
-  <div class="stat"><h3>NIST 800-88</h3><p>Certificado de borrado individual por dispositivo</p></div>
-  <div class="stat"><h3>Scope 3</h3><p>Datos aptos para GRI 305 y ESRS E1</p></div>
-</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white text-center">
+            <span class="inline-block bg-white/30 backdrop-blur-sm text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-4 border border-white/50 text-shadow-lg">Programa Corporativo</span>
+            <h2 class="text-4xl sm:text-6xl font-extrabold mb-6 text-shadow-lg">
+                Transforma el Desuso en Valor Sostenible
+            </h2>
+            <p class="text-xl sm:text-2xl font-light max-w-3xl mx-auto mb-10 text-white opacity-95 text-shadow-lg">
+                ECOUPGRADE: Solución integral de recompra de dispositivos que impulsa la **sostenibilidad corporativa** y optimiza los recursos tecnológicos.
+            </p>
+            <div class="space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="#proceso" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-lg text-dark-text bg-white hover:bg-gray-100 transition duration-300 shadow-green shadow-xl">
+                    Descubre el Proceso
+                </a>
+                <a href="#contacto" class="inline-flex items-center justify-center px-8 py-3 border border-2 border-white text-base font-semibold rounded-lg text-white hover:bg-white hover:text-dark-text transition duration-300">
+                    Solicita una Auditoría
+                </a>
+            </div>
+        </div>
+    </section>
 
-<!-- ESG -->
-<section class="section">
-  <p class="section-label">Impacto medible</p>
-  <h2 class="section-title">Alineado con los criterios ESG</h2>
-  <p class="section-subtitle">Cada baja de equipo queda documentada y cuantificada para tu memoria de sostenibilidad.</p>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🌍</div>
-      <h3>Ambiental</h3>
-      <ul>
-        <li>Reducción cuantificable de la huella de carbono</li>
-        <li>Gestión responsable de residuos electrónicos</li>
-        <li>Compensación de emisiones residuales con proyectos certificados (Gold Standard / VCS)</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🤝</div>
-      <h3>Social</h3>
-      <ul>
-        <li>Contribución a proyectos comunitarios mediante iniciativas de compensación de carbono</li>
-        <li>Impacto positivo en comunidades locales</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">📋</div>
-      <h3>Gobernanza</h3>
-      <ul>
-        <li>Procesos transparentes y auditables</li>
-        <li>Trazabilidad completa por dispositivo</li>
-        <li>Credibilidad ante inversores y stakeholders</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <!-- Sección 2: Impacto ESG y Sostenibilidad -->
+    <section id="sostenibilidad" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-base font-semibold text-primary-green uppercase tracking-wide">Impacto Medible</h3>
+                <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-dark-text">Alineación Estratégica con Criterios ESG</p>
+            </div>
 
-<!-- DEPARTAMENTOS -->
-<section class="section">
-  <p class="section-label">Valor directo</p>
-  <h2 class="section-title">Ventajas por departamento</h2>
-  <p class="section-subtitle">Los dispositivos IT son Scope 3: su gestión afecta a Sostenibilidad, Finanzas e IT.</p>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🌱</div>
-      <h3>Sostenibilidad</h3>
-      <ul>
-        <li>Cada baja documentada con CO₂ evitado medible</li>
-        <li>Datos listos para tu memoria de sostenibilidad (GRI 305, ESRS E1)</li>
-        <li>Compensación con proyectos verificados internacionalmente</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">💶</div>
-      <h3>Finanzas</h3>
-      <ul>
-        <li>Recuperación del valor residual de los equipos</li>
-        <li>El valor recuperado compensa parte del CAPEX de la siguiente renovación</li>
-        <li>Documentación auditable para auditoría interna, externa y reporting CSRD</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔒</div>
-      <h3>Tecnología</h3>
-      <ul>
-        <li>Borrado certificado conforme a RGPD en origen (NIST 800-88)</li>
-        <li>Inventario trazable: número de serie, estado, destino y certificado</li>
-        <li>Recogida coordinada con tu calendario y cadena de custodia documentada</li>
-      </ul>
-    </div>
-  </div>
-</section>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Tarjeta 1: Ambiental -->
+                <div class="bg-secondary-gray p-6 rounded-xl shadow-lg border-t-4 border-primary-green">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor">
+                            <path class="icon-check" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM12 6v6l4 2"></path>
+                        </svg>
+                        <p class="text-xl font-bold text-dark-text">Dimensión Ambiental</p>
+                    </div>
+                    <p class="text-gray-600">Reducción cuantificable de la **huella de carbono** y gestión responsable de residuos electrónicos. Participación en proyectos de compensación certificados.</p>
+                </div>
 
-<!-- NORMATIVA -->
-<section class="section">
-  <p class="section-label">Contexto regulatorio</p>
-  <h2 class="section-title">Real Decreto 214/2025</h2>
-  <p class="section-subtitle">Desde el 12 de junio de 2025, las empresas obligadas a presentar el Estado de Información No Financiera deben calcular y publicar su huella de carbono y un plan de reducción de emisiones. El primer reporte, referido al ejercicio 2025, se incorpora a la información de 2026. Fuente: <a href="https://www.boe.es/eli/es/rd/2025/03/18/214" target="_blank" rel="noopener">BOE-A-2025-7439</a>.</p>
-</section>
+                <!-- Tarjeta 2: Social -->
+                <div class="bg-secondary-gray p-6 rounded-xl shadow-lg border-t-4 border-primary-green">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor">
+                            <path class="icon-check" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path class="icon-check" d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <p class="text-xl font-bold text-dark-text">Dimensión Social</p>
+                    </div>
+                    <p class="text-gray-600">Contribución a **proyectos comunitarios** a través de iniciativas de compensación de carbono con impacto positivo en comunidades locales.</p>
+                </div>
 
-<!-- PROCESO -->
-<section class="section">
-  <p class="section-label">Metodología clara</p>
-  <h2 class="section-title">Proceso de implementación en 5 pasos</h2>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">1️⃣</div>
-      <h3>Auditoría inicial</h3>
-      <ul>
-        <li>Evaluación del inventario tecnológico</li>
-        <li>Definición de objetivos de sostenibilidad y métricas ESG</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">2️⃣</div>
-      <h3>Recogida segura</h3>
-      <ul>
-        <li>Logística con cadena de custodia documentada</li>
-        <li>Borrado seguro certificado: sin riesgo de fuga de datos</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">3️⃣</div>
-      <h3>Evaluación técnica</h3>
-      <ul>
-        <li>Análisis del estado de cada dispositivo</li>
-        <li>Prioridad al reacondicionamiento para maximizar el valor de recompra; reciclaje responsable si no es viable</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">4️⃣</div>
-      <h3>Compensación y certificación</h3>
-      <ul>
-        <li>Asignación de fondos a proyectos de compensación de carbono</li>
-        <li>Certificados Gold Standard / VCS</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">5️⃣</div>
-      <h3>Documentación corporativa</h3>
-      <ul>
-        <li>Informes, certificaciones y métricas de impacto</li>
-        <li>Datos preparados para GRI, SASB y TCFD</li>
-      </ul>
-    </div>
-  </div>
-</section>
+                <!-- Tarjeta 3: Gobernanza -->
+                <div class="bg-secondary-gray p-6 rounded-xl shadow-lg border-t-4 border-primary-green">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor">
+                            <path class="icon-check" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <p class="text-xl font-bold text-dark-text">Dimensión de Gobernanza</p>
+                    </div>
+                    <p class="text-gray-600">Implementación de procesos **transparentes y auditables** que fortalecen la credibilidad corporativa ante inversores y *stakeholders*.</p>
+                </div>
+            </div>
 
-<!-- CTA FINAL -->
-<div class="cta-section">
-  <h2>Solicita tu auditoría inicial</h2>
-  <p>Cuéntanos cuántos dispositivos quieres renovar y te explicamos cómo recuperar su valor y documentar su impacto.</p>
-  <a href="/contacto?servicio=ecoupgrade" class="btn-white">Solicitar auditoría</a>
-</div>
+            <div class="mt-16 bg-primary-green/10 p-6 rounded-xl text-center shadow-inner">
+                <p class="text-2xl font-semibold text-primary-green">
+                    <span class="text-4xl font-extrabold mr-2">15%</span> Mejora promedio en calificaciones ESG.
+                </p>
+                <p class="text-sm text-gray-700 mt-1">Reportado por empresas participantes tras la implementación del programa.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-brand">
-    <img src="/images/logo.png" alt="SIMTIC" style="height:50px;margin-bottom:1rem;display:block;filter:brightness(0) invert(1);"/>
-    <p>Productos y servicios tecnológicos para distribuidores y pymes desde 2017.</p>
-  </div>
-  <div class="footer-col">
-    <h4>Páginas</h4>
-    <ul>
-      <li><a href="/servicios">Servicios y Consultoría IT</a></li>
-      <li><a href="/marketing-digital">Marketing Digital B2B</a></li>
-      <li><a href="/ecogreen">EcoGreen</a></li>
-      <li><a href="/contacto">Contacto</a></li>
-    </ul>
-  </div>
-  <div class="footer-col">
-    <h4>Contacto</h4>
-    <ul>
-      <li><a href="mailto:ventas@simtic.es">ventas@simtic.es</a></li>
-      <li><a href="tel:+34931780237">+34 931 780 237</a></li>
-      <li><a href="#">Passeig de Gràcia 95, 5º, 1ª<br/>08008 Barcelona</a></li>
-    </ul>
-  </div>
-</footer>
-<div class="footer-bottom">
-  <span>© 2025 SIMTIC Consulting. Todos los derechos reservados.</span>
-  <span>ventas@simtic.es</span>
-</div>
+    <!-- Sección 3: Ventajas por Departamento -->
+    <section id="ventajas" class="py-16 sm:py-24 bg-secondary-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-base font-semibold text-primary-green uppercase tracking-wide">Valor Directo</h3>
+                <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-dark-text">Ventajas por Departamento</p>
+                <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">El Real Decreto 214/2025 obliga a las grandes empresas españolas a reportar su huella de carbono en 2026. Los dispositivos IT son Scope 3 — su gestión afecta directamente a Finanzas, IT y Sostenibilidad.</p>
+            </div>
 
-<script>
-  function closeMenu() {
-    document.querySelector('.nav-links').classList.remove('open');
-    document.querySelector('.nav-toggle').classList.remove('active');
-  }
-</script>
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <!-- Tarjeta CSO -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-primary-green flex flex-col">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <path class="icon-check" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                            <path class="icon-check" d="M8 12l2.5 2.5L16 9"/>
+                        </svg>
+                        <div>
+                            <p class="text-xs font-semibold text-primary-green uppercase tracking-wide">Sostenibilidad</p>
+                            <p class="text-xl font-bold text-dark-text">Director/a de Sostenibilidad</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-gray-700 flex-grow">
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Compliance RD 214/2025</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Los dispositivos IT son Scope 3 (Categorías 1 y 12). Con EcoUpgrade, cada baja queda documentada con CO₂ evitado medible para su memoria de sostenibilidad.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Hasta 230 kg CO₂e evitados por dispositivo</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Frente a fabricar un nuevo portátil (Fraunhofer IZM 2022). Dato verificable y apto para informe GRI 305 y ESRS E1.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Certificación Gold Standard / VCS</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Compensación de emisiones residuales con proyectos verificados internacionalmente.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta CFO -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-primary-green flex flex-col">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <path class="icon-check" d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        <div>
+                            <p class="text-xs font-semibold text-primary-green uppercase tracking-wide">Finanzas</p>
+                            <p class="text-xl font-bold text-dark-text">Director/a Financiero</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-gray-700 flex-grow">
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Recuperación de valor residual</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Los dispositivos en uso tienen valor de mercado que se pierde con el almacenaje o el reciclaje tardío. La recompra lo convierte en liquidez dentro del mismo ciclo presupuestario.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Reducción del coste total de renovación</p>
+                            <p class="text-sm text-gray-500 mt-0.5">El valor recuperado compensa parte del CAPEX del siguiente ciclo de renovación tecnológica.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Documentación auditable</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Cada transacción documentada con trazabilidad completa: apta para auditoría interna, externa y reporting CSRD.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta CIO -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border-t-4 border-primary-green flex flex-col">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg class="icon-lg text-primary-green" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <rect class="icon-check" x="2" y="3" width="20" height="18" rx="2" ry="2"/>
+                            <path class="icon-check" d="M8 21V3M16 21V3M2 12h20"/>
+                        </svg>
+                        <div>
+                            <p class="text-xs font-semibold text-primary-green uppercase tracking-wide">Tecnología</p>
+                            <p class="text-xl font-bold text-dark-text">Director/a de IT</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 text-gray-700 flex-grow">
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Borrado certificado GDPR en origen</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Certificado de borrado por dispositivo (estándar NIST 800-88) emitido antes de salir de sus instalaciones. Responsabilidad demostrable ante la AEPD.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Trazabilidad completa del inventario</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Número de serie, estado, destino y certificado por dispositivo. Cierra el activo en su ERP sin residuos sin documentar.</p>
+                        </li>
+                        <li class="border-l-2 border-primary-green/30 pl-3">
+                            <p class="font-semibold text-dark-text">Recogida coordinada sin interrupción</p>
+                            <p class="text-sm text-gray-500 mt-0.5">Logística adaptada a su calendario de renovación: recogida en instalaciones con cadena de custodia documentada.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Barra de urgencia regulatoria -->
+            <div class="mt-12 bg-dark-green/10 border border-dark-green/20 rounded-xl p-6 text-center">
+                <p class="text-sm font-semibold text-dark-green uppercase tracking-wide mb-1">Contexto regulatorio</p>
+                <p class="text-lg font-semibold text-dark-text">El Real Decreto 214/2025 obliga a las grandes empresas a calcular y publicar su huella de carbono de 2025 <span class="text-primary-green font-bold">antes de finalizar 2026.</span></p>
+                <p class="text-sm text-gray-500 mt-2">Empresas con más de 250 empleados y activos &gt;20M€ o facturación &gt;40M€. Fuente: BOE, RD 214/2025.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 4: Economía Circular (Métricas) -->
+    <section class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-base font-semibold text-primary-green uppercase tracking-wide">Cierre del Ciclo</h3>
+                <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-dark-text">Economía Circular y Revalorización</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <!-- Métrica 1: CO2 Evitado -->
+                <div class="p-6 rounded-xl bg-primary-green/10">
+                    <p class="text-5xl font-extrabold text-primary-green">230kg</p>
+                    <p class="mt-2 text-xl font-semibold text-dark-text">CO₂e evitados por dispositivo</p>
+                    <p class="text-gray-600 mt-1">Al reacondicionarlo frente a fabricar uno nuevo. Fuente: Fraunhofer IZM 2022 (ciclo de vida completo de portátil).</p>
+                </div>
+
+                <!-- Métrica 2: Reducción emisiones fabricación -->
+                <div class="p-6 rounded-xl bg-primary-green/10">
+                    <p class="text-5xl font-extrabold text-primary-green">70–85%</p>
+                    <p class="mt-2 text-xl font-semibold text-dark-text">Reducción de emisiones de fabricación</p>
+                    <p class="text-gray-600 mt-1">El reacondicionamiento evita entre el 70% y el 85% de las emisiones de manufactura. Fuente: estudios LCA Dell / EPA.</p>
+                </div>
+
+                <!-- Métrica 3: Borrado certificado -->
+                <div class="p-6 rounded-xl bg-primary-green/10">
+                    <p class="text-5xl font-extrabold text-primary-green">100%</p>
+                    <p class="mt-2 text-xl font-semibold text-dark-text">Certificados de borrado por dispositivo</p>
+                    <p class="text-gray-600 mt-1">Estándar NIST 800-88. Cada dispositivo con certificado individual antes de salir de sus instalaciones.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center max-w-4xl mx-auto">
+                <h4 class="text-2xl font-bold text-dark-text mb-4">Transformación de Residuos en Recursos</h4>
+                <p class="text-gray-700">Cada terminal es evaluado para su **reacondicionamiento profesional** (limpieza de datos, actualización de software, verificación de componentes) o, en caso de no ser viable, su **reciclaje responsable** para la recuperación de metales preciosos y materiales reintegrables en la producción.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 5: Proceso de Implementación -->
+    <section id="proceso" class="py-16 sm:py-24 bg-secondary-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-base font-semibold text-primary-green uppercase tracking-wide">Metodología Clara</h3>
+                <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-dark-text">Proceso de Implementación Probado</p>
+            </div>
+
+            <div class="relative">
+                <!-- Línea de tiempo (solo visible en escritorio) -->
+                <div class="hidden md:block absolute inset-0 left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-primary-green/30"></div>
+
+                <!-- Contenedor de pasos para móvil/escritorio -->
+                <div class="space-y-12">
+                    
+                    <!-- Paso 1: Auditoría Inicial -->
+                    <div class="relative flex flex-col md:flex-row items-start md:even:flex-row-reverse">
+                        <div class="timeline-dot hidden md:block"></div>
+                        <!-- Lado Izquierdo (Móvil: Arriba | Desktop: Izquierda) -->
+                        <div class="w-full md:w-1/2 p-4 md:even:pl-16 md:odd:pr-16">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <span class="text-2xl font-extrabold text-white bg-primary-green rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">1</span>
+                                <h4 class="text-xl font-bold text-dark-text">Auditoría Inicial</h4>
+                            </div>
+                            <p class="text-gray-600">Evaluación de inventario tecnológico y definición de **objetivos de sostenibilidad** específicos para su empresa.</p>
+                        </div>
+                        <!-- Lado Derecho (Móvil: Abajo | Desktop: Derecha) -->
+                        <div class="w-full md:w-1/2 p-4 md:odd:pl-16 md:even:pr-16 bg-white md:bg-transparent rounded-lg shadow-sm md:shadow-none">
+                            <h5 class="text-lg font-semibold text-primary-green mb-1 md:text-right">VALOR AÑADIDO:</h5>
+                            <p class="text-gray-700 md:text-right">Define la base de retorno financiero y las **métricas ESG** específicas que se medirán.</p>
+                        </div>
+                    </div>
+
+                    <!-- Paso 2: Recogida Segura -->
+                    <div class="relative flex flex-col md:flex-row items-start md:even:flex-row-reverse">
+                        <div class="timeline-dot hidden md:block"></div>
+                        <!-- Lado Izquierdo (Móvil: Arriba | Desktop: Derecha) -->
+                        <div class="w-full md:w-1/2 p-4 md:odd:pr-16 md:even:pl-16">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <span class="text-2xl font-extrabold text-white bg-primary-green rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">2</span>
+                                <h4 class="text-xl font-bold text-dark-text">Recogida Segura</h4>
+                            </div>
+                            <p class="text-gray-600">Logística profesional con **cadena de custodia documentada** y eliminación certificada de datos confidenciales (borrado seguro).</p>
+                        </div>
+                        <!-- Lado Derecho (Móvil: Abajo | Desktop: Izquierda) -->
+                        <div class="w-full md:w-1/2 p-4 md:even:pr-16 md:odd:pl-16 bg-white md:bg-transparent rounded-lg shadow-sm md:shadow-none order-first md:order-none">
+                            <h5 class="text-lg font-semibold text-primary-green mb-1">VALOR AÑADIDO:</h5>
+                            <p class="text-gray-700">Garantía **cero riesgo de fuga de datos** y cumplimiento total con normativas como el GDPR.</p>
+                        </div>
+                    </div>
+
+                    <!-- Paso 3: Evaluación Técnica -->
+                    <div class="relative flex flex-col md:flex-row items-start md:even:flex-row-reverse">
+                        <div class="timeline-dot hidden md:block"></div>
+                        <!-- Lado Izquierdo (Móvil: Arriba | Desktop: Izquierda) -->
+                        <div class="w-full md:w-1/2 p-4 md:even:pl-16 md:odd:pr-16">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <span class="text-2xl font-extrabold text-white bg-primary-green rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">3</span>
+                                <h4 class="text-xl font-bold text-dark-text">Evaluación Técnica</h4>
+                            </div>
+                            <p class="text-gray-600">Análisis exhaustivo del estado de los dispositivos y determinación de viabilidad para **reacondicionamiento o reciclaje**.</p>
+                        </div>
+                        <!-- Lado Derecho (Móvil: Abajo | Desktop: Derecha) -->
+                        <div class="w-full md:w-1/2 p-4 md:odd:pl-16 md:even:pr-16 bg-white md:bg-transparent rounded-lg shadow-sm md:shadow-none">
+                            <h5 class="text-lg font-semibold text-primary-green mb-1 md:text-right">VALOR AÑADIDO:</h5>
+                            <p class="text-gray-700 md:text-right">Maximización del **valor de recompra** al priorizar el reacondicionamiento sobre el reciclaje.</p>
+                        </div>
+                    </div>
+
+                     <!-- Paso 4: Compensación y Certificación -->
+                    <div class="relative flex flex-col md:flex-row items-start md:even:flex-row-reverse">
+                        <div class="timeline-dot hidden md:block"></div>
+                        <!-- Lado Izquierdo (Móvil: Arriba | Desktop: Derecha) -->
+                        <div class="w-full md:w-1/2 p-4 md:odd:pr-16 md:even:pl-16">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <span class="text-2xl font-extrabold text-white bg-primary-green rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">4</span>
+                                <h4 class="text-xl font-bold text-dark-text">Compensación y Certificación</h4>
+                            </div>
+                            <p class="text-gray-600">Asignación de fondos a **proyectos de compensación de carbono** y generación de certificados oficiales (Gold Standard, VCS).</p>
+                        </div>
+                        <!-- Lado Derecho (Móvil: Abajo | Desktop: Izquierda) -->
+                        <div class="w-full md:w-1/2 p-4 md:even:pr-16 md:odd:pl-16 bg-white md:bg-transparent rounded-lg shadow-sm md:shadow-none order-first md:order-none">
+                            <h5 class="text-lg font-semibold text-primary-green mb-1">VALOR AÑADIDO:</h5>
+                            <p class="text-gray-700">Generación de un **activo de reputación** y contribución directa a la neutralidad de carbono.</p>
+                        </div>
+                    </div>
+
+                     <!-- Paso 5: Documentación Corporativa -->
+                    <div class="relative flex flex-col md:flex-row items-start md:even:flex-row-reverse">
+                        <div class="timeline-dot hidden md:block"></div>
+                        <!-- Lado Izquierdo (Móvil: Arriba | Desktop: Izquierda) -->
+                        <div class="w-full md:w-1/2 p-4 md:even:pl-16 md:odd:pr-16">
+                            <div class="flex items-center space-x-4 mb-3">
+                                <span class="text-2xl font-extrabold text-white bg-primary-green rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">5</span>
+                                <h4 class="text-xl font-bold text-dark-text">Documentación Corporativa</h4>
+                            </div>
+                            <p class="text-gray-600">Entrega de **informes detallados**, certificaciones y métricas de impacto para integración en reportes de sostenibilidad (GRI, SASB, TCFD).</p>
+                        </div>
+                        <!-- Lado Derecho (Móvil: Abajo | Desktop: Derecha) -->
+                        <div class="w-full md:w-1/2 p-4 md:odd:pl-16 md:even:pr-16 bg-white md:bg-transparent rounded-lg shadow-sm md:shadow-none">
+                            <h5 class="text-lg font-semibold text-primary-green mb-1 md:text-right">VALOR AÑADIDO:</h5>
+                            <p class="text-gray-700 md:text-right">Datos listos para presentar a **inversores** y en la memoria anual de sostenibilidad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 6: CTA / Contacto - CON FORMULARIO -->
+    <section id="contacto" class="py-20 sm:py-28 bg-secondary-gray">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h3 class="text-base font-semibold text-primary-green uppercase tracking-wide">Contacto</h3>
+                <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-dark-text">Solicite su Auditoría Gratuita</p>
+                <p class="text-lg font-light text-gray-600 mt-4">Complete el formulario y adjunte su inventario de dispositivos (opcional) para comenzar su evaluación de impacto ESG.</p>
+            </div>
+
+            <!-- Formulario de Contacto -->
+            
+            <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl border-t-4 border-primary-green">
+                <form action='https://ecoupgrade.es/gracias' class='space-y-6' enctype='multipart/form-data' id='contactForm' method='POST' name='auditoria-ecoupgrade'>
+
+                    <!-- Netlify Forms: campos obligatorios -->
+                    <input type="hidden" name="form-name" value="auditoria-ecoupgrade">
+                    <p class="hidden"><label>No rellenar: <input name="bot-field"></label></p>
+                    
+                    <!-- Campo Nombre -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                        <input type="text" id="name" name="name" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-green focus:border-primary-green transition duration-150"
+                               placeholder="Su Nombre">
+                    </div>
+
+                    <!-- Campo Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Corporativo</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-green focus:border-primary-green transition duration-150"
+                               placeholder="ejemplo@empresa.com">
+                    </div>
+
+                    <!-- Campo Adjuntar Fichero (Inventario) -->
+                    <div>
+                        <label for="file_upload" class="block text-sm font-medium text-gray-700 mb-2">Adjuntar Inventario (CSV, Excel, PDF) - Opcional</label>
+                        <label for="file_upload" id="fileLabel" class="file-input-label">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                <path class="icon-check" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <path class="icon-check" d="M17 8l-5-5-5 5"></path>
+                                <path class="icon-check" d="M12 3v12"></path>
+                            </svg>
+                            <span id="fileText">Haga clic para seleccionar o arrastre un archivo...</span>
+                            <!-- El input de tipo file es invisible y gestiona la subida real del archivo -->
+                            <input type="file" id="file_upload" name="attachment" accept=".csv, .xls, .xlsx, .pdf" onchange="updateFileName(this)">
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">Formatos aceptados: .csv, .xlsx, .pdf (Máx. 5MB). NOTA: El archivo solo se adjunta si usas un correo real.</p>
+                    </div>
+
+                    <!-- Campo Mensaje -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensaje o Comentarios Adicionales</label>
+                        <textarea id="message" name="message" rows="4"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-green focus:border-primary-green transition duration-150"
+                                  placeholder="Indique brevemente el volumen de dispositivos o cualquier consulta específica."></textarea>
+                    </div>
+
+                    <!-- Botón de Envío -->
+                    <div>
+                        <button type="submit" id="submitButton" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-lg text-white bg-primary-green hover:bg-green-700 transition duration-300 shadow-lg">
+                            Enviar Solicitud de Auditoría
+                        </button>
+                    </div>
+                </form>
+
+                 <!-- Mensaje de Confirmación -->
+                <div id="successMessage" class="mt-6 hidden p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg" role="alert">
+                    <p class="font-bold">¡Solicitud enviada correctamente!</p>
+                    <p class="text-sm">Nos pondremos en contacto contigo en breve. ¡Gracias!</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-text py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p class="text-lg font-semibold text-primary-green mb-2">ECOUPGRADE</p>
+            <p class="text-sm">&copy; 2025 Programa Corporativo de Recompra de Dispositivos. Todos los derechos reservados.</p>
+            <p class="text-xs mt-1">Solución de gestión tecnológica sostenible.</p>
+        </div>
+    </footer>
+
+    <!-- Script para manejar el archivo y el envío (solo UI) -->
+    <script>
+        // Función para actualizar el texto del input de archivo
+        function updateFileName(input) {
+            const fileText = document.getElementById('fileText');
+            const fileLabel = document.getElementById('fileLabel');
+
+            if (input.files.length > 0) {
+                fileText.textContent = input.files[0].name;
+                fileLabel.classList.add('border-primary-green');
+                fileLabel.classList.remove('border-gray-400');
+            } else {
+                fileText.textContent = 'Haga clic para seleccionar o arrastre un archivo...';
+                fileLabel.classList.remove('border-primary-green');
+                fileLabel.classList.add('border-gray-400');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+            const submitButton = document.getElementById('submitButton');
+
+            // Listener para el envío del formulario (muestra el indicador de carga antes de la redirección)
+            form.addEventListener('submit', function(event) {
+                // Mostrar el indicador de carga en el botón
+                submitButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Enviando...
+                `;
+                
+                // Ocultar formulario y mostrar mensaje de éxito/redirección después de un breve retraso
+                setTimeout(() => {
+                    form.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+                }, 100); 
+
+                // NOTA: No se usa event.preventDefault() ya que FormSubmit necesita la acción nativa del formulario.
+            });
+        });
+    </script>
+
 </body>
 </html>
